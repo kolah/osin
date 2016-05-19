@@ -1,5 +1,7 @@
 package osin
 
+import "net/http"
+
 // AllowedAuthorizeType is a collection of allowed auth request types
 type AllowedAuthorizeType []AuthorizeRequestType
 
@@ -60,6 +62,9 @@ type ServerConfig struct {
 	// Separator to support multiple URIs in Client.GetRedirectUri().
 	// If blank (the default), don't allow multiple URIs.
 	RedirectUriSeparator string
+
+	// Handler for extension grant method.
+	ExtensionHandler func(s *Server, w *Response, r *http.Request) *AccessRequest
 
 	// RetainTokenAfter Refresh allows the server to retain the access and
 	// refresh token for re-use - default false
