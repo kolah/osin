@@ -153,7 +153,7 @@ func (s *Server) HandleAuthorizeRequest(w *Response, r *http.Request) *Authorize
 		w.InternalError = err
 		return nil
 	} else {
-		ret.RedirectUri =  realRedirectUri
+		ret.RedirectUri = realRedirectUri
 	}
 
 	w.SetRedirect(ret.RedirectUri)
@@ -226,7 +226,7 @@ func (s *Server) FinishAuthorizeRequest(w *Response, r *http.Request, ar *Author
 				Client:          ar.Client,
 				RedirectUri:     ar.RedirectUri,
 				Scope:           ar.Scope,
-				GenerateRefresh: true,
+				GenerateRefresh: false, // per the RFC, should NOT generate a refresh token in this case
 				Authorized:      true,
 				Expiration:      ar.Expiration,
 				UserData:        ar.UserData,
