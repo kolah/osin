@@ -463,7 +463,7 @@ func (s *Server) handleAssertionRequest(w *Response, r *http.Request) *AccessReq
 
 func (s *Server) handleExtensionRequest(w *Response, r *http.Request) *AccessRequest {
 	// get client authentication
-	auth := getClientAuth(w, r, s.Config.AllowClientSecretInParams)
+	auth := s.getClientAuth(w, r, s.Config.AllowClientSecretInParams)
 	if auth == nil {
 		return nil
 	}
@@ -481,8 +481,9 @@ func (s *Server) handleExtensionRequest(w *Response, r *http.Request) *AccessReq
 		return nil
 	}
 
+	ctx := r.Context()
 	// must have a valid client
-	if ret.Client = getClient(auth, w.Storage, w); ret.Client == nil {
+	if ret.Client = s.getClient(ctx, auth, w.Storage, w); ret.Client == nil {
 		return nil
 	}
 
